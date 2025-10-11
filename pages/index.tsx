@@ -137,6 +137,7 @@ export default function Home() {
       transition: { duration: 0.18 },
     },
   };
+// 🧠 Forzando redeploy en Vercel
 
 
   return (
