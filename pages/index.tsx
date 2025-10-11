@@ -123,13 +123,21 @@ export default function Home() {
     }
   };
 
-  // Animations tipadas
-  const fadeSlide: Variants = {
+    // ✅ Animaciones corregidas (válido para TypeScript + framer-motion)
+  const fadeSlide = {
     initial: { opacity: 0, y: 8 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -8 },
-    transition: { duration: 0.18 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.18 },
+    },
+    exit: {
+      opacity: 0,
+      y: -8,
+      transition: { duration: 0.18 },
+    },
   };
+
 
   return (
     <div className="lx-app">
