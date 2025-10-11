@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String        @id @default(uuid())
+  email      String        @unique
+  username   String        @unique            // 👈 agregado
+  password   String
+  balance    Float         @default(0)
+  address    String        @unique
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  sentTx     Transaction[] @relation("SentTransactions")
+  receivedTx Transaction[] @relation("ReceivedTransactions")
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAW
+  TRANSFER
+}
+
+model Transaction {
+  id        String          @id @default(uuid())
+  from      User?           @relation("SentTransactions", fields: [fromId], references: [id])
+  fromId    String?
+  to        User?           @relation("ReceivedTransactions", fields: [toId], references: [id])
+  toId      String?
+  amount    Float
+  status    String          @default("SUCCESS")
+  type      TransactionType @default(TRANSFER)  // 👈 agregado, con default para no romper migraciones
+  createdAt DateTime        @default(now())
+}
