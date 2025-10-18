@@ -10,7 +10,7 @@ import {
   ConnectWallet,
 } from "@thirdweb-dev/react";
 import { toast } from "react-toastify";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 type TabKey = "dashboard" | "transfer" | "burn" | "history" | "docs";
 
@@ -75,7 +75,6 @@ export default function Home() {
       const tx = await contract.erc20.transfer(toAddress, parsedAmount);
       toast.success("✅ Transferencia enviada a la red");
       toast.info("⌛ Confirmando en la blockchain...");
-      // quitamos tx.wait?.()
       toast.success(`✅ Transferidos ${parsedAmount} LTXD a ${shortAddr(toAddress)}`);
       setTransactions((prev) => [
         `➜ ${new Date().toLocaleString()} • Transferidos ${parsedAmount} LTXD a ${toAddress}`,
@@ -107,7 +106,6 @@ export default function Home() {
       const tx = await contract.erc20.burn(parsedBurnAmount);
       toast.success("🔥 Quema enviada a la red");
       toast.info("⌛ Confirmando en la blockchain...");
-      // quitamos tx.wait?.()
       toast.success(`🔥 Quemados ${parsedBurnAmount} LTXD`);
       setTransactions((prev) => [
         `🔥 ${new Date().toLocaleString()} • Quemados ${parsedBurnAmount} LTXD`,
@@ -123,22 +121,12 @@ export default function Home() {
     }
   };
 
-    // ✅ Animaciones corregidas (válido para TypeScript + framer-motion)
+  // ✅ Animaciones corregidas
   const fadeSlide = {
     initial: { opacity: 0, y: 8 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.18 },
-    },
-    exit: {
-      opacity: 0,
-      y: -8,
-      transition: { duration: 0.18 },
-    },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.18 } },
+    exit: { opacity: 0, y: -8, transition: { duration: 0.18 } },
   };
-// 🧠 Forzando redeploy en Vercel
-
 
   return (
     <div className="lx-app">
@@ -218,10 +206,9 @@ export default function Home() {
 
         {/* Grid */}
         <section className="lx-grid">
-          {/* Dashboard Balance */}
           <AnimatePresence mode="wait">
             {active === "dashboard" && (
-              <motion.div key="balance" className="card card-balance" {...fadeSlide}>
+              <motion.div key="balance" className="card card-balance" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">Tu saldo</div>
                   <div className="tag tag-safe">Contrato activo</div>
@@ -240,10 +227,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Acciones rápidas */}
           <AnimatePresence mode="wait">
             {active === "dashboard" && (
-              <motion.div key="qa" className="card" {...fadeSlide}>
+              <motion.div key="qa" className="card" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">Acciones rápidas</div>
                 </div>
@@ -264,10 +250,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Info */}
           <AnimatePresence mode="wait">
             {active === "dashboard" && (
-              <motion.div key="info" className="card card-info" {...fadeSlide}>
+              <motion.div key="info" className="card card-info" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">Información</div>
                 </div>
@@ -285,10 +270,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Transferir */}
           <AnimatePresence mode="wait">
             {active === "transfer" && (
-              <motion.div key="transfer" className="card span-2 card-form" {...fadeSlide}>
+              <motion.div key="transfer" className="card span-2 card-form" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">🔁 Transferir LTXD</div>
                 </div>
@@ -327,10 +311,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Quemar */}
           <AnimatePresence mode="wait">
             {active === "burn" && (
-              <motion.div key="burn" className="card span-2 card-form" {...fadeSlide}>
+              <motion.div key="burn" className="card span-2 card-form" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">🔥 Quemar LTXD</div>
                 </div>
@@ -361,10 +344,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Historial */}
           <AnimatePresence mode="wait">
             {active === "history" && (
-              <motion.div key="history" className="card span-2 card-table" {...fadeSlide}>
+              <motion.div key="history" className="card span-2 card-table" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">📜 Historial de transacciones</div>
                 </div>
@@ -392,10 +374,9 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Whitepaper */}
           <AnimatePresence mode="wait">
             {active === "docs" && (
-              <motion.div key="docs" className="card span-2" {...fadeSlide}>
+              <motion.div key="docs" className="card span-2" {...(fadeSlide as any)}>
                 <div className="card-head">
                   <div className="card-title">📄 Whitepaper</div>
                 </div>
@@ -413,5 +394,3 @@ export default function Home() {
     </div>
   );
 }
-/ /   f o r c e   r e d e p l o y  
- 
